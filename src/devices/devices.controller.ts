@@ -46,8 +46,8 @@ export class DevicesController {
   }
 
   @Get()
-  findAll() {
-    return this.devicesService.findAll();
+  findAll(@Body() filter) {
+    return this.devicesService.findAll(filter);
   }
 
   @Get(':id')

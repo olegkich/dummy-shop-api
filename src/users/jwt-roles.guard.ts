@@ -26,19 +26,23 @@ export class JwtRolesGuard implements CanActivate {
 
       const req = context.switchToHttp().getRequest();
 
-      const authHeader = req.headers.authorization;
-      const bearer = authHeader.split(' ')[0];
-      const token = authHeader.split(' ')[1];
+      const authHeader: string = req.headers.authorization;
 
-      if (bearer !== 'bearer' || token!) {
+      const bearer: string = authHeader.split(' ')[0];
+      const token: string = authHeader.split(' ')[1];
+
+      if (bearer !== 'bearer' || !token) {
+        console.log(bearer, token);
         throw new UnauthorizedException({ message: 'user is not authorized' });
       }
 
       const user = this.jwtService.verify(token);
       req.user = user;
 
-      return user.roles.some((role) => requiredRoles.includes(role.value));
+      // this should be implemented using user.roles.some() method for scaling purposes
+      return user.role == requiredRoles;
     } catch (e) {
+      console.log(e);
       throw new UnauthorizedException({ message: 'user is not authorized' });
     }
   }

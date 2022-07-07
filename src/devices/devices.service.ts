@@ -7,6 +7,7 @@ import { Helper } from 'src/shared/helper';
 import { DeviceInfoType, DeviceType } from 'src/types';
 
 import { CreateDeviceDto } from './dto/create-device.dto';
+import { GetAllDeviesDto } from './dto/get-all-devices.dto';
 
 @Injectable()
 export class DevicesService {
@@ -24,13 +25,13 @@ export class DevicesService {
       brandId: createDeviceDto.brandId,
     };
 
-    const deviceInfo: Array<DeviceInfoType> = JSON.parse(createDeviceDto.info);
+    const deviceInfo: Array<DeviceInfoType | undefined> = JSON.parse(
+      createDeviceDto.info,
+    );
 
     const create = await this.deviceRepository.create(device);
 
     if (deviceInfo) {
-      console.log(deviceInfo, typeof deviceInfo);
-
       deviceInfo.forEach((info) => {
         this.infoRepository.create({
           title: info.title,
@@ -41,11 +42,26 @@ export class DevicesService {
     }
   }
 
-  findAll() {
-    return `This action returns all devices`;
+  async findAll(filter: GetAllDeviesDto) {
+    if (filter.brandId && filter.typeId) {
+      return await this.deviceRepository.findAll({
+        where: { brandId: filter.brandId, typeId: filter.typeId },
+      });
+    }
+    if (filter.brandId) {
+      return await this.deviceRepository.findAll({
+        where: { brandId: filter.brandId },
+      });
+    }
+
+    if (filter.typeId) {
+      return await this.deviceRepository.findAll({
+        where: { typeId: filter.typeId },
+      });
+    }
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} device`;
+    return this.deviceRepository.findOne({ where: { id } });
   }
 }
