@@ -1,6 +1,6 @@
 import { Inject, Injectable, UploadedFile } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { UUIDV4 } from 'sequelize';
+import { json, UUIDV4 } from 'sequelize';
 import { Device } from 'src/models/device.model';
 import { DeviceInfo } from 'src/models/deviceInfo.model';
 import { Helper } from 'src/shared/helper';
@@ -25,6 +25,7 @@ export class DevicesService {
       brandId: createDeviceDto.brandId,
     };
 
+    // TODO: Validation for the maximum number of items in info array
     const deviceInfo: Array<DeviceInfoType | undefined> = JSON.parse(
       createDeviceDto.info,
     );

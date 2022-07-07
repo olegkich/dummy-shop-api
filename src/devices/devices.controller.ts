@@ -18,6 +18,7 @@ import { JwtRolesGuard } from 'src/users/jwt-roles.guard';
 import { Roles } from 'src/users/roles-auth.decorator';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
+import { GetAllDeviesDto } from './dto/get-all-devices.dto';
 
 @Controller('devices')
 export class DevicesController {
@@ -46,7 +47,7 @@ export class DevicesController {
   }
 
   @Get()
-  findAll(@Body() filter) {
+  findAll(@Body() filter: GetAllDeviesDto) {
     return this.devicesService.findAll(filter);
   }
 
