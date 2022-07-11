@@ -16,6 +16,7 @@ import { TypeBrand } from './models/typeBrand.model';
 import { Type } from './models/type.model';
 import { Device } from './models/device.model';
 import { UsersService } from './users/users.service';
+import * as dotenv from 'dotenv';
 
 @Module({
   imports: [
@@ -24,11 +25,11 @@ import { UsersService } from './users/users.service';
     DevicesModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'freetime',
-      database: 'Shop',
+      host: process.env.POSTGRES_HOST,
+      port: Number(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
       models: [
         User,
         Basket,

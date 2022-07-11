@@ -44,20 +44,31 @@ export class DevicesService {
   }
 
   async findAll(filter: GetAllDeviesDto) {
+    let limit = filter.limit || 9;
+    let page = filter.page || 1;
+
+    let offset = page * limit - limit;
+
     if (filter.brandId && filter.typeId) {
       return await this.deviceRepository.findAll({
         where: { brandId: filter.brandId, typeId: filter.typeId },
+        limit,
+        offset,
       });
     }
     if (filter.brandId) {
       return await this.deviceRepository.findAll({
         where: { brandId: filter.brandId },
+        limit,
+        offset,
       });
     }
 
     if (filter.typeId) {
       return await this.deviceRepository.findAll({
         where: { typeId: filter.typeId },
+        limit,
+        offset,
       });
     }
   }

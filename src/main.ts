@@ -11,6 +11,7 @@ async function bootstrap() {
 
   dotenv.config();
 
+  console.log(process.env.hello || 'error');
   await app.listen(process.env.PORT || 5000);
 }
 bootstrap();

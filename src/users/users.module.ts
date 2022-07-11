@@ -17,7 +17,7 @@ dotenv.config();
   imports: [
     SequelizeModule.forFeature([User]),
     JwtModule.register({
-      secret: process.env.PRIVATE_KEY || 'secretsex69',
+      secret: process.env.PRIVATE_KEY,
       signOptions: {
         expiresIn: '24h',
       },

@@ -6,4 +6,10 @@ export class GetAllDeviesDto {
 
   @IsInt()
   typeId: number;
+
+  @IsInt()
+  limit: number;
+
+  @IsInt()
+  page: number;
 }

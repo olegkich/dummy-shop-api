@@ -1,1 +1,0 @@
-[{title: "ram", desciption: "8gb"}, {storage: "128gb"},{processor: "qualcom bullshit"}
