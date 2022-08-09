@@ -1,8 +1,10 @@
 import { Inject, Injectable, UploadedFile } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { json, UUIDV4 } from 'sequelize';
+import { Brand } from 'src/models/brand.model';
 import { Device } from 'src/models/device.model';
 import { DeviceInfo } from 'src/models/deviceInfo.model';
+import { Type } from 'src/models/type.model';
 import { Helper } from 'src/shared/helper';
 import { DeviceInfoType, DeviceType } from 'src/types';
 
@@ -52,13 +54,16 @@ export class DevicesService {
     if (filter.brandId && filter.typeId) {
       return await this.deviceRepository.findAll({
         where: { brandId: filter.brandId, typeId: filter.typeId },
+        include: [Type, Brand],
         limit,
+
         offset,
       });
     }
     if (filter.brandId) {
       return await this.deviceRepository.findAll({
         where: { brandId: filter.brandId },
+        include: [Type, Brand],
         limit,
         offset,
       });
@@ -67,10 +72,13 @@ export class DevicesService {
     if (filter.typeId) {
       return await this.deviceRepository.findAll({
         where: { typeId: filter.typeId },
+        include: [Type, Brand],
         limit,
         offset,
       });
     }
+
+    return await this.deviceRepository.findAll({ where: {}, limit });
   }
 
   findOne(id: number) {

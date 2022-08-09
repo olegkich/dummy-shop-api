@@ -20,7 +20,7 @@ export class UsersService {
     });
 
     if (candidate) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User already exists', HttpStatus.SEE_OTHER);
     }
 
     const hashedPassword: string = await bcrypt.hash(userDto.password, 5);

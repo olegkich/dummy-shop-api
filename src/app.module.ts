@@ -17,6 +17,8 @@ import { Type } from './models/type.model';
 import { Device } from './models/device.model';
 import { UsersService } from './users/users.service';
 import * as dotenv from 'dotenv';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -48,6 +50,10 @@ import * as dotenv from 'dotenv';
     TypesModule,
     DevicesModule,
     UsersModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/*'],
+    }),
   ],
   controllers: [],
   providers: [],
