@@ -5,12 +5,14 @@ import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { where } from 'sequelize/types';
+import { Basket } from 'src/models/basket.model';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     private JwtService: JwtService,
+    @InjectModel(Basket) private basketRepository: typeof Basket,
   ) {}
 
   async register(userDto: UserDto) {
@@ -26,6 +28,7 @@ export class UsersService {
     const hashedPassword: string = await bcrypt.hash(userDto.password, 5);
     userDto.password = hashedPassword;
     const user: User = await this.userRepository.create(userDto);
+    const basket = await this.basketRepository.create({ userId: user.id });
     return this.generateToken(user);
   }
 

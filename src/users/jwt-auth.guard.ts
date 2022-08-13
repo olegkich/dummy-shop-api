@@ -20,7 +20,7 @@ export class JwtUserGuard implements CanActivate {
       const bearer = authHeader.split(' ')[0];
       const token = authHeader.split(' ')[1];
 
-      if (bearer !== 'bearer' || token!) {
+      if (bearer !== 'bearer' || !token) {
         throw new UnauthorizedException({ message: 'user is not authorized' });
       }
 
@@ -29,7 +29,9 @@ export class JwtUserGuard implements CanActivate {
 
       return true;
     } catch (e) {
-      throw new UnauthorizedException({ message: 'user is not authorized' });
+      throw new UnauthorizedException({
+        message: 'user is not authorized error',
+      });
     }
   }
 }

@@ -15,10 +15,12 @@ async function bootstrap() {
   dotenv.config();
 
   const swagger_config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Shop Api')
+    .setDescription(
+      'An API for a dummy shop, only basic functionality implemented',
+    )
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('shop')
     .build();
   const document = SwaggerModule.createDocument(app, swagger_config);
   SwaggerModule.setup('api', app, document);

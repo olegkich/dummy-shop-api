@@ -8,6 +8,7 @@ import { JwtRolesGuard } from './jwt-roles.guard';
 import { JwtUserGuard } from './jwt-auth.guard';
 import { DatabaseError } from 'sequelize/types';
 import * as dotenv from 'dotenv';
+import { Basket } from 'src/models/basket.model';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ dotenv.config();
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-    SequelizeModule.forFeature([User]),
+    SequelizeModule.forFeature([User, Basket]),
     JwtModule.register({
       secret: process.env.PRIVATE_KEY,
       signOptions: {

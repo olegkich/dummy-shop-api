@@ -23,7 +23,7 @@ export class BasketDevice extends Model<BasketDevice, null> {
   basket: Basket;
 
   @ForeignKey(() => Basket)
-  baksetId: number;
+  basketId: number;
 
   @BelongsTo(() => Device)
   device: Device;

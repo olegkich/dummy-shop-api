@@ -19,6 +19,7 @@ import { UsersService } from './users/users.service';
 import * as dotenv from 'dotenv';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { BasketModule } from './basket/basket.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'public'),
       exclude: ['/*'],
     }),
+    BasketModule,
   ],
   controllers: [],
   providers: [],
