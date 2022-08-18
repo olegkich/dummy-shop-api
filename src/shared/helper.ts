@@ -14,7 +14,7 @@ export class Helper {
   }
 
   static destinationPath(req, file, cb) {
-    cb(null, './static/');
+    cb(null, './public/');
   }
   static toType(obj) {
     return {}.toString

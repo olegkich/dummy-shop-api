@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Basket } from 'src/models/basket.model';
 import { BasketDevice } from 'src/models/basketDevice.model';
+import { Device } from 'src/models/device.model';
 import { AddBasketItemDto } from './dto/add-basket-item.dto';
 
 @Injectable()
@@ -23,22 +24,26 @@ export class BasketService {
 
     addBasketItemDto.basketId = basket.id;
 
-    console.log(addBasketItemDto.basketId);
-
-    return await this.basketDeviceRepository.create({
+    const addItem = await this.basketDeviceRepository.create({
       deviceId: addBasketItemDto.deviceId,
       basketId: addBasketItemDto.basketId,
     });
+
+    return addItem;
   }
 
-  findAllItems() {
-    return this.basketDeviceRepository.findAll();
+  async findAllItems(userId: number) {
+    const basket = await this.basketRepository.findOne({ where: { userId } });
+    return await this.basketDeviceRepository.findAll({
+      where: { basketId: basket.id },
+      include: [Device],
+    });
   }
 
   removeItem(id: number) {
     return this.basketDeviceRepository.destroy({
       where: {
-        deviceId: id,
+        id,
       },
     });
   }

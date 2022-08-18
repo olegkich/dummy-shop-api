@@ -1,5 +1,6 @@
 import { Inject, Injectable, UploadedFile } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { info } from 'console';
 import { json, UUIDV4 } from 'sequelize';
 import { Brand } from 'src/models/brand.model';
 import { Device } from 'src/models/device.model';
@@ -22,7 +23,7 @@ export class DevicesService {
     const device: DeviceType = {
       name: createDeviceDto.name,
       price: createDeviceDto.price,
-      img: createDeviceDto.img,
+      img: createDeviceDto.image,
       typeId: createDeviceDto.typeId,
       brandId: createDeviceDto.brandId,
     };
@@ -35,6 +36,7 @@ export class DevicesService {
     const create = await this.deviceRepository.create(device);
 
     if (deviceInfo) {
+      console.log(deviceInfo, 'device info');
       deviceInfo.forEach((info) => {
         this.infoRepository.create({
           title: info.title,
@@ -52,7 +54,7 @@ export class DevicesService {
     let offset = page * limit - limit;
 
     if (filter.brandId && filter.typeId) {
-      return await this.deviceRepository.findAll({
+      return await this.deviceRepository.findAndCountAll({
         where: { brandId: filter.brandId, typeId: filter.typeId },
         include: [Type, Brand],
         limit,
@@ -61,7 +63,7 @@ export class DevicesService {
       });
     }
     if (filter.brandId) {
-      return await this.deviceRepository.findAll({
+      return await this.deviceRepository.findAndCountAll({
         where: { brandId: filter.brandId },
         include: [Type, Brand],
         limit,
@@ -70,7 +72,7 @@ export class DevicesService {
     }
 
     if (filter.typeId) {
-      return await this.deviceRepository.findAll({
+      return await this.deviceRepository.findAndCountAll({
         where: { typeId: filter.typeId },
         include: [Type, Brand],
         limit,
@@ -78,10 +80,14 @@ export class DevicesService {
       });
     }
 
-    return await this.deviceRepository.findAll({ where: {}, limit });
+    return await this.deviceRepository.findAndCountAll({ where: {}, limit });
   }
 
   findOne(id: number) {
-    return this.deviceRepository.findOne({ where: { id } });
+    console.log(id);
+    return this.deviceRepository.findOne({
+      where: { id },
+      include: [Type, Brand, DeviceInfo],
+    });
   }
 }

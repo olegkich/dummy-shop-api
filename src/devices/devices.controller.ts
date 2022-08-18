@@ -44,11 +44,10 @@ export class DevicesController {
       }),
     }),
   )
-  create(
-    @Body() createDeviceDto: CreateDeviceDto,
-    @UploadedFile() img: ImageType,
-  ) {
-    createDeviceDto.img = img.filename;
+  create(@Body() createDeviceDto: CreateDeviceDto, @UploadedFile() img: any) {
+    createDeviceDto.info = `[${createDeviceDto.info.toString()}]`;
+
+    createDeviceDto.image = img.filename;
 
     return this.devicesService.create(createDeviceDto);
   }

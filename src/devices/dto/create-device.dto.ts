@@ -17,7 +17,7 @@ export class CreateDeviceDto {
   price: number;
 
   @IsString()
-  img: string;
+  image: string;
 
   @IsString()
   info: string;

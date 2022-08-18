@@ -27,8 +27,8 @@ export class BasketController {
   }
 
   @Get()
-  findAll() {
-    return this.basketService.findAllItems();
+  findAll(@User() user: any) {
+    return this.basketService.findAllItems(user.id);
   }
 
   @Delete(':id')
