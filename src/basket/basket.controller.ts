@@ -26,6 +26,7 @@ export class BasketController {
     return this.basketService.addItem(addBasketItemDto, user.id);
   }
 
+  @UseGuards(JwtUserGuard)
   @Get()
   findAll(@User() user: any) {
     return this.basketService.findAllItems(user.id);
